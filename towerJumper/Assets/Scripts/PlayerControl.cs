@@ -7,23 +7,46 @@ using UnityEngine.InputSystem;
 public class PlayerControl : MonoBehaviour
 {
 
-    private Rigidbody rb;
+    [SerializeField] private LayerMask platformLayerMask;
 
+    private Rigidbody2D rb;
+    private BoxCollider2D coll;
     public float speed = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        //player jumps
+        Jump();
+    }
+
+    /// <summary>
+    /// Uses a boxcast that is slightly lower that only
+    /// interacts with the platform.
+    /// </summary>
+    /// <returns></returns>
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
+    }
+
+    /// <summary>
+    /// Check if player presses space bar
+    /// and if IsGrounded is true.
+    /// </summary>
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            Vector3 movement = new Vector3(0, 1, 0);
-            rb.AddForce(movement * speed, ForceMode.Impulse);
+            Vector2 movement = new Vector2(0, 1);
+            rb.AddForce(movement * speed, ForceMode2D.Impulse);
         }
 
     }
