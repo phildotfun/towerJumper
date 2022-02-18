@@ -8,8 +8,7 @@ public class PlayerControl : MonoBehaviour
 {
 
     private Rigidbody rb;
-    private float movementX;
-    private float movementY;
+
     public float speed = 1f;
 
     // Start is called before the first frame update
@@ -19,18 +18,14 @@ public class PlayerControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-        rb.AddForce(movement * speed);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Vector3 movement = new Vector3(0, 1, 0);
+            rb.AddForce(movement * speed, ForceMode.Impulse);
+        }
+
     }
 
-    private void OnMove(InputValue movementValue)
-    {
-        Vector2 movementVector = movementValue.Get<Vector2>();
-
-        movementX = movementVector.x;
-        movementY = movementVector.y;
-
-    }
 }
