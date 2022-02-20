@@ -16,9 +16,13 @@ public class PlatformGenerator : MonoBehaviour
     //rotation angle
     public float rotation;
 
+    //content of the text file
     private string content;
 
     public GameObject tower;
+
+    //paltforms will become a child of this level the number;
+    public GameObject parentLevel;
 
 
 
@@ -30,7 +34,7 @@ public class PlatformGenerator : MonoBehaviour
 
         ReadFile();
         MakeParentLevel(CountRows());
-
+        MakeRow(CountRows());
     }
 
     void Update()
@@ -54,9 +58,6 @@ public class PlatformGenerator : MonoBehaviour
     /// <returns></returns>
     public int CountRows()
     {
-        char[] newLineChar = { '\n' };
-        string[] level = content.Split(newLineChar);
-
         //find how many line breaks there are
         //each line break will create one null level
         char lineChar = '\n';
@@ -64,28 +65,36 @@ public class PlatformGenerator : MonoBehaviour
         return levelCount;
     }
 
+     void MakeRow(int rows)
+     {
+        char[] newLineChar = { '\n' };
+        string[] levelRow = content.Split(newLineChar);
+        
 
-
-
-    /*        for (int i = levelCount; i > 0; i--)
-            {
-                MakeRow(level[i], i);
-            }*/
-
-    /*    void MakeRow(string rowStr, float y)
+        for (int x = rows; x > 0; x--)
         {
-            char[] rowArray = rowStr.ToCharArray();
+            char[] rowArray = levelRow[x].ToCharArray();
 
-            for (int x = 0; x < rowArray.Length; x++)
+            for (int y = 0; y < rowArray.Length - 1; y++)
             {
-
-                nullLevel.transform.position = new Vector3(0, )
+                char plat = rowArray[y];
+                if (plat == 'X')
+                {
+                    {
+                        GameObject platform = Instantiate(Resources.Load("Platform")) as GameObject;
+                    }
+                }
             }
-        }*/
-
+        }
+     }
+    /// <summary>
+    /// Create a empty parent that sits in center of tower
+    /// Subtract 1 to account for array counting
+    /// </summary>
+    /// <param name="d"></param>
     void MakeParentLevel(int d)
     {
-        for (int i = d; i > 0; i--)
+        for (int i = d - 1; i > 0; i--)
         {
             GameObject parentLevel = Instantiate(Resources.Load("Level")) as GameObject;
             parentLevel.transform.position = new Vector3(0, i);

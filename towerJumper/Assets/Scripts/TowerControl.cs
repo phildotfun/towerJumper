@@ -12,7 +12,7 @@ public class TowerControl : MonoBehaviour
     public PlatformGenerator platformGen;
 
     public int towerWidth = 5;
-    public int towerHeight;
+    public float towerHeight;
 
     public float turnSpeed = 0f;
 
@@ -47,14 +47,14 @@ public class TowerControl : MonoBehaviour
     /// </summary>
     void MovePivotPoint(float y)
     {
-        transform.position = new Vector2(0, y);
+        transform.position = new Vector2(0, y / 2);
     }
 
     /// <summary>
     /// The height of the tower is based on how many rows there are
     /// </summary>
     /// <param name="towerHeight"></param>
-    void SetHeight(int towerHeight)
+    void SetHeight(float towerHeight)
     {
         transform.localScale = new Vector3(towerWidth, towerHeight / 2, towerWidth);
     }
