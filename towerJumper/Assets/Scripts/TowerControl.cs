@@ -47,7 +47,7 @@ public class TowerControl : MonoBehaviour
     /// </summary>
     void MovePivotPoint(float y)
     {
-        transform.position = new Vector2(0, y / 2);
+        transform.position = new Vector2(0, y);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class TowerControl : MonoBehaviour
     /// <param name="towerHeight"></param>
     void SetHeight(float towerHeight)
     {
-        transform.localScale = new Vector3(towerWidth, towerHeight / 2, towerWidth);
+        transform.localScale = new Vector3(towerWidth, (towerHeight / 2) * 2, towerWidth);
     }
 
 }

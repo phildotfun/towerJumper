@@ -21,15 +21,20 @@ public class PlatformGenerator : MonoBehaviour
 
     public GameObject tower;
 
-    //paltforms will become a child of this level the number;
+    //platforms will become a child of this level the number;
     public GameObject parentLevel;
+
+    //final gameobject rotional object
+    //responsible for putting the pivot point
+    //at the center of the tower via bing a parent;
+    public GameObject rotLevelFinal;
 
 
 
     void Start()
     {
         coll = platform.GetComponent<Collider2D>();
-        yOffset = coll.bounds.size.y * 2;
+        yOffset = coll.bounds.size.y * 5;
         xOffset = coll.bounds.size.x;
 
         ReadFile();
@@ -74,14 +79,28 @@ public class PlatformGenerator : MonoBehaviour
         for (int x = rows; x > 0; x--)
         {
             char[] rowArray = levelRow[x].ToCharArray();
+            
 
+            parentLevel = GameObject.Find("Level " + x);
+;
             for (int y = 0; y < rowArray.Length - 1; y++)
             {
                 char plat = rowArray[y];
                 if (plat == 'X')
                 {
                     {
-                        GameObject platform = Instantiate(Resources.Load("Platform")) as GameObject;
+                        GameObject rotationLevel = Instantiate(Resources.Load("LevelRotation"), parentLevel.transform) as GameObject;
+                        rotationLevel.name = "Level: " + x + " Platform: " + y;
+                        
+                        float rotAmount = 360 / rowArray.Length;
+                        rotLevelFinal = GameObject.Find("Level: " + x + " Platform: " + y);
+                        rotLevelFinal.transform.rotation = Quaternion.Euler(new Vector3(0, y * rotAmount, 0));
+
+                        GameObject platform = Instantiate(Resources.Load("Platform"), rotLevelFinal.transform) as GameObject;
+
+                        //Quaternion parentRotation = parentLevel.GetComponent<Transform>().rotation;
+
+
                     }
                 }
             }
@@ -91,13 +110,12 @@ public class PlatformGenerator : MonoBehaviour
     /// Create a empty parent that sits in center of tower
     /// Subtract 1 to account for array counting
     /// </summary>
-    /// <param name="d"></param>
     void MakeParentLevel(int d)
     {
         for (int i = d - 1; i > 0; i--)
         {
             GameObject parentLevel = Instantiate(Resources.Load("Level")) as GameObject;
-            parentLevel.transform.position = new Vector3(0, i);
+            parentLevel.transform.position = new Vector2(0, i * 2);
             parentLevel.name = "Level " + i;
         }
     }
