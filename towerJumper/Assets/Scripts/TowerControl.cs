@@ -6,29 +6,57 @@ public class TowerControl : MonoBehaviour
 {
 
 
-    public float height;
+  
     private Vector3 rotation;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public PlatformGenerator platformGen;
 
+    public int towerWidth = 5;
+    public int towerHeight;
+
+    public float turnSpeed = 0f;
+
+    // Start is called before the first frame update
+    public void Start()
+    {
+        int yScale = platformGen.CountRows();
+        MovePivotPoint(yScale);
+        SetHeight(yScale);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+
+
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(Vector3.up, -height * Time.deltaTime);
+            transform.Rotate(Vector3.up, -turnSpeed * Time.deltaTime);
            
 
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(Vector3.up,  height * Time.deltaTime);
+            transform.Rotate(Vector3.up, turnSpeed * Time.deltaTime);
 
         }
+    }
+
+    /// <summary>
+    /// Moves the pivot point to the bottom of the tower
+    /// </summary>
+    void MovePivotPoint(float y)
+    {
+        transform.position = new Vector2(0, y);
+    }
+
+    /// <summary>
+    /// The height of the tower is based on how many rows there are
+    /// </summary>
+    /// <param name="towerHeight"></param>
+    void SetHeight(int towerHeight)
+    {
+        transform.localScale = new Vector3(towerWidth, towerHeight / 2, towerWidth);
     }
 
 }
