@@ -92,7 +92,7 @@ public class PlatformGenerator : MonoBehaviour
                         //the platform will be positiond at the circumfrance of the tower width
                         rotLevelFinal = GameObject.Find("Level: " + x + " Platform: " + y);
                         GameObject platform = Instantiate(Resources.Load("Platform"), rotLevelFinal.transform) as GameObject;
-                        platform.transform.position = new Vector3(rotLevelFinal.transform.position.x, rotLevelFinal.transform.position.y, -tower.transform.localScale.x / 1.75f);
+                        platform.transform.position = new Vector3(rotLevelFinal.transform.position.x, rotLevelFinal.transform.position.y, -tower.transform.localScale.x);
                     }
                 }
 

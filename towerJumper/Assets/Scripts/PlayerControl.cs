@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 public class PlayerControl : MonoBehaviour
 {
 
+    public AudioSource jumpSound;
+    
+
     [SerializeField] private LayerMask platformLayerMask;
 
     private Rigidbody rb;
@@ -26,7 +29,7 @@ public class PlayerControl : MonoBehaviour
         //player jumps
         Jump();
         
-        Debug.DrawRay(coll.bounds.center, -transform.up * .75f, Color.red);
+        Debug.DrawRay(coll.bounds.center, -transform.up * 1.5f, Color.red);
     }
 
     /// <summary>
@@ -36,7 +39,7 @@ public class PlayerControl : MonoBehaviour
     /// <returns></returns>
     private bool IsGrounded()
     {
-        return Physics.Raycast(coll.bounds.center, -transform.up, .74f, platformLayerMask);
+        return Physics.Raycast(coll.bounds.center, -transform.up, 1.5f, platformLayerMask);
     }
 
     /// <summary>
@@ -47,11 +50,18 @@ public class PlayerControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
+            jumpSound.Play();   
             Vector2 movement = new Vector2(0, 1);
             rb.AddForce(movement * speed, ForceMode.Impulse);
+            
         }
 
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        Vector3 firstPosition;
+        firstPosition = new Vector3(0, 2.5f, -5.18f);
+        transform.position = firstPosition;
+    }
 
 }

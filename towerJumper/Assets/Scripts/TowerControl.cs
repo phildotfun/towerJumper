@@ -11,9 +11,11 @@ public class TowerControl : MonoBehaviour
 
     public PlatformGenerator platformGen;
 
-   public float towerHeight;
+    public float towerHeight;
 
     public float turnSpeed = 0f;
+
+    private GameObject player;
 
     // Start is called before the first frame update
     public void Start()
@@ -21,6 +23,9 @@ public class TowerControl : MonoBehaviour
         int yScale = platformGen.CountRows();
         MovePivotPoint(yScale);
         SetHeight(yScale);
+
+        player = GameObject.Find("Player");
+
     }
 
     // Update is called once per frame
@@ -46,7 +51,7 @@ public class TowerControl : MonoBehaviour
     /// </summary>
     void MovePivotPoint(float y)
     {
-        transform.position = new Vector2(0, y / 2);
+        transform.position = new Vector2(0, 0);
     }
 
     /// <summary>
@@ -56,6 +61,11 @@ public class TowerControl : MonoBehaviour
     void SetHeight(float towerHeight)
     {
         transform.localScale = new Vector3(transform.localScale.x, towerHeight / 2, transform.localScale.x);
+    }
+
+    void ResetTower()
+    {
+
     }
 
 }
