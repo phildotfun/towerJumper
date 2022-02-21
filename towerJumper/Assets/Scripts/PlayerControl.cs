@@ -9,15 +9,15 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] private LayerMask platformLayerMask;
 
-    private Rigidbody2D rb;
-    private BoxCollider2D coll;
+    private Rigidbody rb;
+    private CapsuleCollider coll;
     public float speed = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<BoxCollider2D>();
+        rb = GetComponent<Rigidbody>();
+        coll = GetComponent<CapsuleCollider>();
     }
 
     // Update is called once per frame
@@ -25,6 +25,8 @@ public class PlayerControl : MonoBehaviour
     {
         //player jumps
         Jump();
+        
+        Debug.DrawRay(coll.bounds.center, -transform.up * .75f, Color.red);
     }
 
     /// <summary>
@@ -34,7 +36,7 @@ public class PlayerControl : MonoBehaviour
     /// <returns></returns>
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, platformLayerMask);
+        return Physics.Raycast(coll.bounds.center, -transform.up, .74f, platformLayerMask);
     }
 
     /// <summary>
@@ -46,9 +48,10 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             Vector2 movement = new Vector2(0, 1);
-            rb.AddForce(movement * speed, ForceMode2D.Impulse);
+            rb.AddForce(movement * speed, ForceMode.Impulse);
         }
 
     }
+
 
 }
