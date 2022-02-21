@@ -6,29 +6,20 @@ public class TextureOffset : MonoBehaviour
 {
     // Scroll main texture based on time
     public float turnSpeed = 2f;
+    public float speed = 0f;
     Renderer rend;
+
+    private Material material;
 
     void Start()
     {
-        rend = GetComponent<Renderer>();
+        material = GetComponent<Renderer>().material;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            turnSpeed++;
-            rend.material.mainTextureOffset = new Vector2(turnSpeed, 0);
-
-
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            turnSpeed--;
-            rend.material.mainTextureOffset = new Vector2(turnSpeed, 0);
-
-        }
+        float OffsetX = Time.time * speed;
+        material.mainTextureOffset = new Vector2(OffsetX, 0);
 
     }
 }

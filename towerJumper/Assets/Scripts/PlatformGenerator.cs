@@ -84,24 +84,26 @@ public class PlatformGenerator : MonoBehaviour
                 char plat = rowArray[y];
                 if (plat == 'X')
                 {
-                    {
-                        GameObject rotationLevel = Instantiate(Resources.Load("LevelRotation"), parentLevel.transform) as GameObject;
-                        rotationLevel.name = "Level: " + x + " Platform: " + y;
-                        
-                        //find the rotation level then set the platform to the proper position
-                        //the platform will be positiond at the circumfrance of the tower width
-                        rotLevelFinal = GameObject.Find("Level: " + x + " Platform: " + y);
-                        GameObject platform = Instantiate(Resources.Load("Platform"), rotLevelFinal.transform) as GameObject;
-                        platform.transform.position = new Vector3(rotLevelFinal.transform.position.x, rotLevelFinal.transform.position.y, -tower.transform.localScale.x);
-                    }
-                }
 
-                //then rotate the parent
-                float finalOffset = y * rotationOffset;
-                rotLevelFinal.transform.rotation = Quaternion.Euler(new Vector3(0, finalOffset, 0));
-             }
+                    GameObject rotationLevel = Instantiate(Resources.Load("LevelRotation"), parentLevel.transform) as GameObject;
+                    rotationLevel.name = "Level: " + (rows - x) + " Platform: " + y;
+
+                    //find the rotation level then set the platform to the proper position
+                    //the platform will be positiond at the circumfrance of the tower width
+                    rotLevelFinal = GameObject.Find("Level: " + (rows - x) + " Platform: " + y);
+                    GameObject platform = Instantiate(Resources.Load("Platform"), rotLevelFinal.transform) as GameObject;
+                    platform.transform.position = new Vector3(rotLevelFinal.transform.position.x, rotLevelFinal.transform.position.y, -tower.transform.localScale.x);
+
+                    //then rotate the parent
+                    float finalOffset = y * rotationOffset;
+                    rotLevelFinal.transform.rotation = Quaternion.Euler(new Vector3(0, finalOffset, 0));
+                }
+                
+            }
         }
-     }
+
+       
+    }
     /// <summary>
     /// Create a empty parent that sits in center of tower
     /// Subtract 1 to account for array counting

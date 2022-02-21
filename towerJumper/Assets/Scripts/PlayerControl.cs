@@ -8,6 +8,12 @@ public class PlayerControl : MonoBehaviour
 {
 
     public AudioSource jumpSound;
+
+    public float timeCount = 0f;
+
+    public float blockRot = 0f;
+
+    public float torque = 0f;
     
 
     [SerializeField] private LayerMask platformLayerMask;
@@ -28,9 +34,14 @@ public class PlayerControl : MonoBehaviour
     {
         //player jumps
         Jump();
-        
-        Debug.DrawRay(coll.bounds.center, -transform.up * 1.5f, Color.red);
+
+        float turn = Input.GetAxis("Horizontal");
+        Quaternion newRotation = Quaternion.Euler(0, 0, torque * -turn);
+        transform.rotation = newRotation;
+
     }
+
+
 
     /// <summary>
     /// Uses a boxcast that is slightly lower that only
@@ -39,7 +50,7 @@ public class PlayerControl : MonoBehaviour
     /// <returns></returns>
     private bool IsGrounded()
     {
-        return Physics.Raycast(coll.bounds.center, -transform.up, 1.5f, platformLayerMask);
+        return Physics.Raycast(coll.bounds.center, -transform.up, 2f, platformLayerMask);
     }
 
     /// <summary>
@@ -57,11 +68,11 @@ public class PlayerControl : MonoBehaviour
         }
 
     }
+
     private void OnTriggerEnter(Collider other)
     {
         Vector3 firstPosition;
         firstPosition = new Vector3(0, 2.5f, -5.18f);
         transform.position = firstPosition;
     }
-
 }

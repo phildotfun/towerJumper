@@ -17,6 +17,9 @@ public class TowerControl : MonoBehaviour
 
     private GameObject player;
 
+    private Rigidbody rb;
+    public float torque;
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -26,24 +29,15 @@ public class TowerControl : MonoBehaviour
 
         player = GameObject.Find("Player");
 
+        rb = GetComponent<Rigidbody>(); 
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(Vector3.up, -turnSpeed * Time.deltaTime);
-           
-
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(Vector3.up, turnSpeed * Time.deltaTime);
-
-        }
+        float turn = Input.GetAxis("Horizontal");
+        rb.AddTorque(transform.up * torque * turn);
     }
 
     /// <summary>
@@ -51,7 +45,7 @@ public class TowerControl : MonoBehaviour
     /// </summary>
     void MovePivotPoint(float y)
     {
-        transform.position = new Vector2(0, 0);
+        transform.position = new Vector2(0, y * -.15f);
     }
 
     /// <summary>
