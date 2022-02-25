@@ -97,6 +97,20 @@ public class PlatformGenerator : MonoBehaviour
                     //then rotate the parent
                     float finalOffset = y * rotationOffset;
                     rotLevelFinal.transform.rotation = Quaternion.Euler(new Vector3(0, finalOffset, 0));
+                } else if (plat == 'O')
+                {
+                    GameObject rotationLevel = Instantiate(Resources.Load("LevelRotation"), parentLevel.transform) as GameObject;
+                    rotationLevel.name = "Level: " + (rows - x) + " Platform: " + y;
+
+                    //find the rotation level then set the platform to the proper position
+                    //the platform will be positiond at the circumfrance of the tower width
+                    rotLevelFinal = GameObject.Find("Level: " + (rows - x) + " Platform: " + y);
+                    GameObject platform = Instantiate(Resources.Load("Goal"), rotLevelFinal.transform) as GameObject;
+                    platform.transform.position = new Vector3(rotLevelFinal.transform.position.x, rotLevelFinal.transform.position.y, -tower.transform.localScale.x);
+
+                    //then rotate the parent
+                    float finalOffset = y * rotationOffset;
+                    rotLevelFinal.transform.rotation = Quaternion.Euler(new Vector3(0, finalOffset, 0));
                 }
                 
             }
